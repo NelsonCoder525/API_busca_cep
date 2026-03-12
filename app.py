@@ -13,7 +13,8 @@ def index(uf, cidade, logradouro):
         link = f"https://viacep.com.br/ws/{uf}/{cidade}/{logradouro}/json/"
         requisicao = requests.get(link)
         dic_requisicao = requisicao.json()
-        
+        for item in dic_requisicao:
+            item["cep"] = item["cep"].replace("-", "")
         tabela = pd.DataFrame(dic_requisicao)
         tabela = tabela[["cep", "logradouro", "complemento", "bairro", "localidade", "uf"]]
         return tabela.to_html()
